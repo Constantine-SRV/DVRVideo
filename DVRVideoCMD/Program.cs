@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 
 AppSettingsService.Load(); // <--- не забудь вызвать до всего, чтобы все параметры были проинициализированы!
 MongoLogService.Init(AppSettingsService.MongoConnectionString, AppSettingsService.MongoDbName);
-UsersProcessor.Init(AppSettingsService.MongoConnectionString, AppSettingsService.MongoDbName);
+UserRegistry.Init(AppSettingsService.MongoConnectionString, AppSettingsService.MongoDbName);
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -12,13 +12,13 @@ builder.Logging.AddConsole();
 builder.Logging.SetMinimumLevel(LogLevel.Warning); // <-- только Warning и выше
 
 // Регистрируем singleton'ы для DI
-builder.Services.AddSingleton<AccumulatorService>();
+builder.Services.AddSingleton<SensorDataAccumulator>();
 builder.Services.AddSingleton<ZabbixSenderService>(sp =>
     new ZabbixSenderService("192.168.55.41")
 );
-// Пример DI для ZabbixApiService — параметры берём из AppSettings:
-builder.Services.AddSingleton<ZabbixApiService>(sp =>
-    new ZabbixApiService(
+// Пример DI для ZabbixApiClient — параметры берём из AppSettings:
+builder.Services.AddSingleton<ZabbixApiClient>(sp =>
+    new ZabbixApiClient(
         AppSettingsService.ZabbixApiUrl,
         AppSettingsService.ZabbixUsername,
         AppSettingsService.ZabbixPassword,
@@ -26,8 +26,8 @@ builder.Services.AddSingleton<ZabbixApiService>(sp =>
     )
 );
 
-builder.Services.AddSingleton<PoolWaterLevelAnalyzer>(sp =>
-    new PoolWaterLevelAnalyzer(
+builder.Services.AddSingleton<WaterLevelAiAnalyzer>(sp =>
+    new WaterLevelAiAnalyzer(
         AppSettingsService.AzureOpenAiEndpoint,
         "gpt-4o-mini",
         AppSettingsService.AzureOpenAiKey
@@ -35,8 +35,8 @@ builder.Services.AddSingleton<PoolWaterLevelAnalyzer>(sp =>
 );
 
 
-builder.Services.AddSingleton<TelegramCommandHandlers>();
-builder.Services.AddSingleton<TelegramCommandHandler>();
+builder.Services.AddSingleton<TelegramCommandProcessor>();
+builder.Services.AddSingleton<TelegramCommandRouter>();
 builder.Services.AddHostedService<TelegramBotBackgroundService>();
 
 builder.Services.AddControllers();

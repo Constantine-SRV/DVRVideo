@@ -1,4 +1,8 @@
-﻿public static class SnapshotCacheManager
+/// <summary>
+/// Manages caching of RTSP snapshots on disk and returns existing images if they are still fresh.
+/// Used by Telegram commands to quickly provide camera images.
+/// </summary>
+﻿public static class CameraSnapshotCache
 {
     /// <summary>
     /// Получить путь к актуальному (или создать новый) снимку камеры (с кропом или без)
@@ -33,7 +37,7 @@
 
         // 2. Сохраняем полный снимок с камеры (оригинал) СРАЗУ в tmp
         string fullPath = FileHelper.GetTempFullPath(baseFileName);
-        if (!CameraSnapshotService.SaveSnapshot(channel, fullPath))
+        if (!RtspSnapshotService.SaveSnapshot(channel, fullPath))
             return null;
 
         // 3. Возвращаем либо полный путь, либо делаем crop

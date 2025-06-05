@@ -1,4 +1,7 @@
-﻿public static class TelegramSender
+/// <summary>
+/// Helper methods for sending messages and photos to Telegram.
+/// </summary>
+﻿public static class TelegramMessageSender
 {
     public static async Task SendPhotoAsync(string token, long chatId, string imagePath, string caption = null)
     {

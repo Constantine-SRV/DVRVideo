@@ -3,7 +3,10 @@ using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 
-public static class WaterLevelHistoryService
+public static class WaterLevelHistoryRepository
+/// <summary>
+/// Persists water level estimations to MongoDB for history.
+/// </summary>
 {
     private static IMongoCollection<BsonDocument> _history;
     private static bool _initialized = false;
@@ -18,7 +21,7 @@ public static class WaterLevelHistoryService
 
     public static async Task AddRecordAsync(long userId, int percent, string source = "telegram")
     {
-        if (!_initialized) throw new Exception("WaterLevelHistoryService is not initialized");
+        if (!_initialized) throw new Exception("WaterLevelHistoryRepository is not initialized");
 
         var doc = new BsonDocument
         {
