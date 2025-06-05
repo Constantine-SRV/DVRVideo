@@ -4,7 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public static class UsersProcessor
+/// <summary>
+/// Stores Telegram users in MongoDB and keeps a cached list in memory.
+/// Controllers and the Telegram bot register or update users via this class.
+/// </summary>
+public static class UserRegistry
 {
     private static IMongoCollection<BsonDocument> _users;
     private static HashSet<long> _knownUsers = new HashSet<long>();
@@ -23,7 +27,7 @@ public static class UsersProcessor
             if (doc.Contains("userId")) _knownUsers.Add(doc["userId"].AsInt64);
         }
         _initialized = true;
-        Console.WriteLine($"UsersProcessor initialized. Users loaded: {_knownUsers.Count}");
+        Console.WriteLine($"UserRegistry initialized. Users loaded: {_knownUsers.Count}");
     }
 
     /// <summary>
@@ -32,7 +36,7 @@ public static class UsersProcessor
     /// </summary>
     public static async Task<int> RegisterOrUpdateUserAsync(long userId, string username, string firstName, string lastName, string language, int accessLevel = 0)
     {
-        if (!_initialized) throw new Exception("UsersProcessor not initialized");
+        if (!_initialized) throw new Exception("UserRegistry not initialized");
 
         var filter = Builders<BsonDocument>.Filter.Eq("userId", userId);
 

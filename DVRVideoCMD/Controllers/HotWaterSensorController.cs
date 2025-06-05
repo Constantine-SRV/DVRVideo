@@ -2,10 +2,14 @@
 
 [ApiController]
 [Route("api1/hotWater")]
-public class HotWaterController : ControllerBase
+/// <summary>
+/// HTTP endpoint receiving hot water sensor values.
+/// Data is accumulated and later forwarded to Zabbix.
+/// </summary>
+public class HotWaterSensorController : ControllerBase
 {
-    private readonly AccumulatorService _accumulator;
-    public HotWaterController(AccumulatorService accumulator)
+    private readonly SensorDataAccumulator _accumulator;
+    public HotWaterSensorController(SensorDataAccumulator accumulator)
     {
         _accumulator = accumulator;
     }

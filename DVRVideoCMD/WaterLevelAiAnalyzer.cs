@@ -3,14 +3,18 @@ using System.Text.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-public class PoolWaterLevelAnalyzer
+/// <summary>
+/// Uses Azure OpenAI to estimate pool water level from two camera images.
+/// Called by TelegramCommandProcessor when handling the "swim" command.
+/// </summary>
+public class WaterLevelAiAnalyzer
 {
     private readonly string _endpoint;
     private readonly string _deployment;
     private readonly string _apiKey;
     private readonly string _apiVersion;
 
-    public PoolWaterLevelAnalyzer(string endpoint, string deployment, string apiKey, string apiVersion = "2024-02-15-preview")
+    public WaterLevelAiAnalyzer(string endpoint, string deployment, string apiKey, string apiVersion = "2024-02-15-preview")
     {
         _endpoint = endpoint;
         _deployment = deployment;
@@ -69,7 +73,8 @@ Additional information: These are two photos of the same pool taken from differe
                     int percentInt;
                     if (int.TryParse(contentProp.GetString(), out percentInt))
                     {
-                        WaterLevelHistoryService.AddRecordAsync(chatId, percentInt);
+                        // Persist estimated water level for history
+                        await WaterLevelHistoryRepository.AddRecordAsync(chatId, percentInt, "ai");
                     }
                     return $"{contentProp.GetString()}% of the skimmer height (estimated by {_deployment})";
 

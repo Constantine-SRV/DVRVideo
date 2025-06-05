@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class TelegramCommandHandler
+/// <summary>
+/// Parses incoming Telegram messages and dispatches them to the appropriate command.
+/// </summary>
+public class TelegramCommandRouter
 {
     private readonly List<TelegramCommand> _commands;
 
-    public TelegramCommandHandler(TelegramCommandHandlers handlers)
+    public TelegramCommandRouter(TelegramCommandProcessor handlers)
     {
         // Заполняем список команд (можно расширять)
         _commands = new List<TelegramCommand>
@@ -51,7 +54,7 @@ public class TelegramCommandHandler
             {
                 if (accessLevel < cmd.MinAccessLevel)
                 {
-                    await TelegramSender.SendMessageAsync(
+                    await TelegramMessageSender.SendMessageAsync(
                         AppSettingsService.TelegramToken,
                         chatId,
                         "Access denied. Your access level is insufficient for this command."
@@ -64,7 +67,7 @@ public class TelegramCommandHandler
         }
 
         // Если не совпало ни с одной командой:
-        await TelegramSender.SendMessageAsync(
+        await TelegramMessageSender.SendMessageAsync(
             AppSettingsService.TelegramToken,
             chatId,
             "Unknown command. Type 'help' for available commands."

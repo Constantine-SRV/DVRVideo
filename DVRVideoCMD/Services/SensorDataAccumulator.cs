@@ -1,7 +1,10 @@
+/// <summary>
+/// Accumulates sensor values received via HTTP controllers and periodically sends averages to Zabbix.
+/// </summary>
 ﻿using System.Collections.Concurrent;
 using System.Timers;
 
-public class AccumulatorService
+public class SensorDataAccumulator
 {
     public class ValueBucket
     {
@@ -18,7 +21,7 @@ public class AccumulatorService
     private readonly ZabbixSenderService _zabbix;
     private readonly System.Timers.Timer _timer;
 
-    public AccumulatorService(ZabbixSenderService zabbix)
+    public SensorDataAccumulator(ZabbixSenderService zabbix)
     {
         _zabbix = zabbix;
         _timer = new System.Timers.Timer(60_000); // 60 сек
