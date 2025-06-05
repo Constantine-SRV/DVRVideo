@@ -2,13 +2,16 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Runs TelegramUpdateListener in a background hosted service.
+/// </summary>
 public class TelegramBotBackgroundService : BackgroundService
 {
-    private readonly TelegramBotListener _listener;
+    private readonly TelegramUpdateListener _listener;
 
-    public TelegramBotBackgroundService(TelegramCommandHandler commandHandler)
+    public TelegramBotBackgroundService(TelegramCommandRouter commandHandler)
     {
-        _listener = new TelegramBotListener(AppSettingsService.TelegramToken);
+        _listener = new TelegramUpdateListener(AppSettingsService.TelegramToken);
         _listener._commandHandler += commandHandler.HandleAnyCommand;
     }
 

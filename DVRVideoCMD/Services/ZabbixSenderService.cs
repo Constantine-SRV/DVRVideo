@@ -3,6 +3,10 @@ using System.Text;
 using System.Text.Json;
 
 public class ZabbixSenderService
+/// <summary>
+/// Sends data to Zabbix trapper interface via TCP.
+/// Used by SensorDataAccumulator.
+/// </summary>
 {
     private readonly string _server;
     private readonly int _port;

@@ -5,14 +5,17 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Globalization;
 
-public class ZabbixApiService
+/// <summary>
+/// Simplified client for Zabbix HTTP API used by Telegram commands.
+/// </summary>
+public class ZabbixApiClient
 {
     private readonly string _url;
     private readonly string _user;
     private readonly string _password;
     private readonly string _apiToken; // если используешь токен (6.0+)
 
-    public ZabbixApiService(string url, string user, string password, string apiToken = null)
+    public ZabbixApiClient(string url, string user, string password, string apiToken = null)
     {
         _url = url;
         _user = user;

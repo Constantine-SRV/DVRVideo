@@ -2,11 +2,15 @@
 
 [ApiController]
 [Route("api1/power")]
-public class PowerController : ControllerBase
+/// <summary>
+/// HTTP endpoint for power sensor readings.
+/// Data is averaged and pushed to Zabbix.
+/// </summary>
+public class PowerSensorController : ControllerBase
 {
-    private readonly AccumulatorService _accumulator;
+    private readonly SensorDataAccumulator _accumulator;
 
-    public PowerController(AccumulatorService accumulator)
+    public PowerSensorController(SensorDataAccumulator accumulator)
     {
         _accumulator = accumulator;
     }

@@ -2,7 +2,11 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 
-public class TelegramBotListener
+public class TelegramUpdateListener
+/// <summary>
+/// Polls Telegram for new messages and triggers the command handler delegate.
+/// Used by TelegramBotBackgroundService.
+/// </summary>
 {
     private readonly string _token;
     private readonly string _apiUrl;
@@ -12,7 +16,7 @@ public class TelegramBotListener
     public delegate Task CommandHandler(long chatId, string text, int accessLevel);
     public event CommandHandler _commandHandler;
 
-    public TelegramBotListener(string token)
+    public TelegramUpdateListener(string token)
     {
         _token = token;
         _apiUrl = $"https://api.telegram.org/bot{_token}/";
@@ -51,7 +55,7 @@ public class TelegramBotListener
                 string text = textProp.GetString()?.ToLowerInvariant() ?? "";
 
                 // Регистрируем или обновляем пользователя — получаем accessLevel
-                int accessLevel = await UsersProcessor.RegisterOrUpdateUserAsync(
+                int accessLevel = await UserRegistry.RegisterOrUpdateUserAsync(
                     chatId, username, firstName, lastName, language);
 
                 Console.WriteLine($"[INFO] Message from user {chatId} ({username}, access: {accessLevel}): {text}");

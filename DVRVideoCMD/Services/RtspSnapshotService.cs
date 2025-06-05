@@ -1,6 +1,10 @@
 ﻿using OpenCvSharp;
 
-public static class CameraSnapshotService
+/// <summary>
+/// Captures a single frame from the DVR RTSP stream.
+/// Used by CameraSnapshotCache to obtain fresh images.
+/// </summary>
+public static class RtspSnapshotService
 {
     public static string BaseRtspUrl =  AppSettingsService.BaseRtspUrl;
         //"rtsp://user:!qaz2wsx3edc@192.168.0.252:554/cam/realmonitor?channel={0}&subtype=0";
