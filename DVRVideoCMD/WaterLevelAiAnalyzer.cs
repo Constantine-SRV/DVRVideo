@@ -73,8 +73,12 @@ Additional information: These are two photos of the same pool taken from differe
                     int percentInt;
                     if (int.TryParse(contentProp.GetString(), out percentInt))
                     {
+
                         // Persist estimated water level for history
                         await WaterLevelHistoryRepository.AddRecordAsync(chatId, percentInt, "ai");
+
+                        WaterLevelHistoryRepository.AddRecordAsync(chatId, percentInt);
+
                     }
                     return $"{contentProp.GetString()}% of the skimmer height (estimated by {_deployment})";
 

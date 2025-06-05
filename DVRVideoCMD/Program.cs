@@ -5,7 +5,9 @@ using Microsoft.Extensions.Hosting;
 AppSettingsService.Load(); // <--- не забудь вызвать до всего, чтобы все параметры были проинициализированы!
 MongoLogService.Init(AppSettingsService.MongoConnectionString, AppSettingsService.MongoDbName);
 UserRegistry.Init(AppSettingsService.MongoConnectionString, AppSettingsService.MongoDbName);
+
 WaterLevelHistoryRepository.Init(AppSettingsService.MongoConnectionString, AppSettingsService.MongoDbName);
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
