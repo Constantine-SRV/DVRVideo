@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "DVRVideoCMD": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "MONGO_CONN_STR": "mongodb://mongoTgRW:1cuXez7yV9ApPrwGjaXy@192.168.55.30:27017/TgDB?authSource=TgDB"
+      },
+      "applicationUrl": "https://localhost:63618;http://localhost:63619"
+    }
+  }
+}
