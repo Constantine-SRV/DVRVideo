@@ -6,6 +6,9 @@ AppSettingsService.Load(); // <--- не забудь вызвать до все�
 MongoLogService.Init(AppSettingsService.MongoConnectionString, AppSettingsService.MongoDbName);
 UserRegistry.Init(AppSettingsService.MongoConnectionString, AppSettingsService.MongoDbName);
 
+WaterLevelHistoryRepository.Init(AppSettingsService.MongoConnectionString, AppSettingsService.MongoDbName);
+
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
