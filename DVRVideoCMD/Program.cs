@@ -41,6 +41,8 @@ builder.Services.AddSingleton<WaterLevelAiAnalyzer>(sp =>
 builder.Services.AddSingleton<TelegramCommandProcessor>();
 builder.Services.AddSingleton<TelegramCommandRouter>();
 builder.Services.AddHostedService<TelegramBotBackgroundService>();
+builder.Services.AddHostedService<ABBPowerBackgroundService>();
+builder.Services.AddHostedService<TelegramBotBackgroundService>();
 
 builder.Services.AddControllers();
 
