@@ -22,14 +22,14 @@ public class WaterLevelAiAnalyzer
         _apiVersion = apiVersion;
     }
 
-    public async Task<string> AnalyzeWaterLevelAsync(string imagePath1, string imagePath2,long chatId)
+    public async Task<string> AnalyzeWaterLevelAsync(string imagePath1, string imagePath2, string imagePath3, long chatId)
     {
-        string prompt = @"On these two photos of the pool, estimate the water level as a percentage of the height of the rectangular skimmer window (the opening in the wall). Only reply with the number (percentage), no extra text.
-Additional information: These are two photos of the same pool taken from different cameras, placed at different angles. One camera is mounted at a height of 2.8 meters above the water surface, the other at 6 meters. Please account for possible optical distortions and refraction at the water surface when making your estimate.";
+        string prompt = @"On these three photos of the pool, estimate the water level as a percentage of the height of the rectangular skimmer window (the opening in the wall). Only reply with the number (percentage), no extra text.
+Additional information: These are three photos of the same pool taken from different cameras, placed at different angles. first and threed cameras are mounted at a height of 2.8 meters above the water surface, the second at 6 meters. Please account for possible optical distortions and refraction at the water surface when making your estimate.";
 
         var imageBytes1 = Convert.ToBase64String(File.ReadAllBytes(imagePath1));
         var imageBytes2 = Convert.ToBase64String(File.ReadAllBytes(imagePath2));
-
+        var imageBytes3 = Convert.ToBase64String(File.ReadAllBytes(imagePath3));
         var requestBody = new
         {
             messages = new[]
@@ -41,11 +41,12 @@ Additional information: These are two photos of the same pool taken from differe
                     {
                         new { type = "text", text = prompt },
                         new { type = "image_url", image_url = new { url = $"data:image/jpeg;base64,{imageBytes1}" } },
-                        new { type = "image_url", image_url = new { url = $"data:image/jpeg;base64,{imageBytes2}" } }
+                       // new { type = "image_url", image_url = new { url = $"data:image/jpeg;base64,{imageBytes2}" } },
+                        new { type = "image_url", image_url = new { url = $"data:image/jpeg;base64,{imageBytes3}" } }
                     }
                 }
             },
-            max_tokens = 100,
+            max_tokens = 200,
             temperature = 0.2,
             top_p = 0.95,
         };

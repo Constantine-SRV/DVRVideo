@@ -6,7 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-/// <summary>Фасад для доступа к настройкам, хранящимся в MongoDB.</summary>
+public class IPCamInfo
+{
+    public int Channel { get; set; }
+    public string Link { get; set; }
+}
+
 public static class AppSettingsService
 {
     // ───────── публичные свойства ─────────
@@ -35,6 +40,9 @@ public static class AppSettingsService
     // Разные списки
     public static List<SnapshotArea> SnapshotAreas => _doc.SnapshotAreas;
     public static Dictionary<int, string> CameraNames => _doc.CameraNames;
+
+    // Новый список IP-камер
+    public static List<IPCamInfo> IPCamList => _doc.IPCamList;
 
     public static string GetCameraName(int ch) =>
         CameraNames.TryGetValue(ch, out var n) ? n : $"ch_{ch:D2}";
@@ -87,10 +95,12 @@ public static class AppSettingsService
         public string ABBPassword { get; set; }
         public string ABBurl { get; set; }
 
-        // Lists / dictionaries
         public List<SnapshotArea> SnapshotAreas { get; set; } = new();
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfDocuments)]
         public Dictionary<int, string> CameraNames { get; set; } = new();
+
+        // Новый список камер
+        public List<IPCamInfo> IPCamList { get; set; } = new();
     }
 }

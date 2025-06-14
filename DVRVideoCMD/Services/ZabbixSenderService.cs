@@ -54,7 +54,7 @@ public class ZabbixSenderService
             byte[] response = new byte[1024];
             int read = await stream.ReadAsync(response, 0, response.Length);
             string resp = Encoding.UTF8.GetString(response, 0, read);
-            Console.WriteLine("Zabbix response: " + resp);
+           // Console.WriteLine("Zabbix response: " + resp);
         }
     }
 }

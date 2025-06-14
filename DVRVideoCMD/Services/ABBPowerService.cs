@@ -42,10 +42,14 @@ public class ABBPowerService
 
             return result;
         }
-        catch
+        catch (Exception ex)
         {
             // Возвращаем PowerValues с нулями при любой ошибке
-            return new PowerValues();
+            if (DateTime.Now.Hour > 7 && DateTime.Now.Hour < 20)
+            {
+                Console.WriteLine($"ABBPowerService{ex.Message}");
+            }
+            return null;
         }
     }
 }

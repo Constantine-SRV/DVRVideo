@@ -34,9 +34,9 @@ public class TelegramCommandProcessor
             }
         }
 
-        if (images.Count == 2)
+        if (images.Count == 3)
         {
-            var percent = await _analyzer.AnalyzeWaterLevelAsync(images[0], images[1], chatId);
+            var percent = await _analyzer.AnalyzeWaterLevelAsync(images[0], images[1], images[2], chatId);
             await TelegramMessageSender.SendMessageAsync(AppSettingsService.TelegramToken, chatId, $"Water level: {percent}");
         }
         else
@@ -78,7 +78,7 @@ public class TelegramCommandProcessor
                 channels = match.Groups[1].Value
                     .Split(',')
                     .Select(s => int.TryParse(s, out int n) ? n : -1)
-                    .Where(n => n >= 1 && n <= 16)
+                    .Where(n => n >= 1 && n <= 32)
                     .Distinct()
                     .ToList();
             }
@@ -87,7 +87,7 @@ public class TelegramCommandProcessor
         else if (Regex.IsMatch(cleanCmd, @"(ch|cam)(\d+)"))
         {
             var match = Regex.Match(cleanCmd, @"(ch|cam)(\d+)");
-            if (match.Success && int.TryParse(match.Groups[2].Value, out int ch) && ch >= 1 && ch <= 16)
+            if (match.Success && int.TryParse(match.Groups[2].Value, out int ch) && ch >= 1 && ch <= 32)
             {
                 channels.Add(ch);
             }

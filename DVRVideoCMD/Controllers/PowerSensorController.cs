@@ -19,7 +19,7 @@ public class PowerSensorController : ControllerBase
     public IActionResult In1()
     {
         var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
-       // Console.WriteLine("Power/in1 RAW: " + Request.QueryString.Value);
+      // Console.WriteLine("Power/in1 RAW: " + Request.QueryString.Value);
 
         string host = "homeCY";
 

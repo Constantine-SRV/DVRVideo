@@ -28,11 +28,14 @@ public class ABBPowerBackgroundService : BackgroundService
                 {
                     // Отправляем все значения по схеме "power.abb.pin1" и т.д.
                     await SendPowerValuesToZabbixAsync(power);
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Power sent to Zabbix.");
+                  //  Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Power sent to Zabbix.");
                 }
                 else
                 {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [WARN] ABB inverter data unavailable.");
+                    if (DateTime.Now.Hour > 7 && DateTime.Now.Hour < 20)
+                    {
+                        Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [WARN] ABB inverter data unavailable.");
+                    }
                 }
             }
             catch (Exception ex)
